@@ -9,7 +9,12 @@
     <packaging>pom</packaging>
 
     <name>demo</name>
-    <url>http://maven.apache.org</url>
+    <repositories>
+        <repository>
+            <id>aliyun-mvn</id>
+            <url>https://maven.aliyun.com/repository/central</url>
+        </repository>
+    </repositories>
 
     <properties>
         <java.version>1.8</java.version>
@@ -31,6 +36,7 @@
     </dependencies>
     <modules>
         <module>flink</module>
+        <module>spark</module>
     </modules>
     <build>
         <plugins>
