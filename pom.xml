@@ -8,7 +8,12 @@
     <version>0.1</version>
     <packaging>pom</packaging>
 
-    <name>demo</name>
+    <name>demo for learning</name>
+    <modules>
+        <module>flink</module>
+        <module>spark</module>
+    </modules>
+
     <repositories>
         <repository>
             <id>aliyun-mvn</id>
@@ -34,10 +39,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <modules>
-        <module>flink</module>
-        <module>spark</module>
-    </modules>
     <build>
         <plugins>
             <plugin>
