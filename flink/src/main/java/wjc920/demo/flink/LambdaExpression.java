@@ -16,6 +16,7 @@ public class LambdaExpression {
         env.execute();
     }
 
+    /*eg0和eg1对比，目前看，flatMap可以实现所有map的功能*/
     /**
      * eg0
      * @param env
