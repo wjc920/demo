@@ -20,7 +20,6 @@ public class SocketWindowWordCount {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         DataStream<String> source = env.socketTextStream("localhost", port);
         DataStream<WordWithCount> windowCounts = source.flatMap(new FlatMapFunction<String, WordWithCount>() {
-
             private static final long serialVersionUID = 3068103555661117367L;
 
             @Override
@@ -29,17 +28,15 @@ public class SocketWindowWordCount {
                     out.collect(new WordWithCount(word, 1));
                 }
             }
-        }).keyBy("word").timeWindow(Time.seconds(5), Time.seconds(1))
-                .reduce(new ReduceFunction<SocketWindowWordCount.WordWithCount>() {
-                    private static final long serialVersionUID = -8747078707093052174L;
+        }).keyBy("word").timeWindow(Time.seconds(5), Time.seconds(1)).reduce(new ReduceFunction<SocketWindowWordCount.WordWithCount>() {
+            private static final long serialVersionUID = -8747078707093052174L;
 
-                    @Override
-                    public WordWithCount reduce(WordWithCount a, WordWithCount b) throws Exception {
-                        return new WordWithCount(a.word, a.count + b.count);
-                    }
-                });
+            @Override
+            public WordWithCount reduce(WordWithCount a, WordWithCount b) throws Exception {
+                return new WordWithCount(a.word, a.count + b.count);
+            }
+        });
         windowCounts.print().setParallelism(1);
-
         env.execute("Socket Window WordCount");
     }
 
