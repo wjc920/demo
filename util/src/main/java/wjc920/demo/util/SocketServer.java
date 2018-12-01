@@ -5,24 +5,43 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class SocketServer {
-    
-    private static ServerSocket server = null;
-    private static Socket socket = null;
-    private static PrintWriter writer = null;
-    static {
+public abstract class SocketServer extends Thread {
+
+    private ServerSocket server;
+    private Socket socket;
+    private PrintWriter writer;
+    private long maxTime;
+
+    public SocketServer(long maxTime) {
+        this.maxTime = maxTime;
+    }
+
+    @Override
+    public void run() {
         try {
             server = new ServerSocket(Consts.SOCKET_PORT);
             socket = server.accept();
-        } catch (IOException e) {
+            writer = new PrintWriter(socket.getOutputStream());
+            Message msg = null;
+            while (!server.isClosed()) {
+                if(System.currentTimeMillis() > maxTime) {
+                    close();
+                }
+                msg = createMsg();
+                Thread.sleep(msg.getDelay());
+                writer.println(msg.getBody());
+                writer.flush();
+            }
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
-    
-    public static void destory() {
-        if(server != null) {
+
+    public void close() {
+        
+        if (server != null) {
             synchronized (SocketServer.class) {
-                if(server!=null) {
+                if (server != null) {
                     try {
                         server.close();
                     } catch (IOException e) {
@@ -32,18 +51,20 @@ public class SocketServer {
             }
         }
         
-        if(writer!=null) {
+        if (socket != null) {
             synchronized (SocketServer.class) {
-                if(writer!=null) {
-                    writer.close();
-                    writer = null;
+                if (socket != null) {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
-        //TODO 
-//        if(wri)
+
     }
-    
-    
+
+    public abstract Message createMsg();
 
 }

@@ -1,59 +1,39 @@
 package wjc920.demo.flink.stream.operators;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.Random;
 
+import org.apache.flink.api.common.typeinfo.Types;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
+import wjc920.demo.util.Consts;
+import wjc920.demo.util.Message;
+import wjc920.demo.util.SocketServer;
+
 public class MapAndFlatMap {
-    
-    
-    public static void main(String[] args) {
-        int port = 5677;
-        new Thread(() -> startServerSocket(port), "socket-server").start();
+
+    public static SocketServer server;
+
+    public static void main(String[] args) throws Exception {
+        startServer();
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        DataStream<String> source = env.socketTextStream("localhost", port);
-        
-        
-        
+        DataStream<String> source = env.socketTextStream("localhost", Consts.SOCKET_PORT);
+        source.map((in) -> new Tuple2<>(Integer.parseInt(in.split("\\s")[0]), Integer.parseInt(in.split("\\s")[1]))).returns(Types.TUPLE(Types.INT, Types.INT))
+        .filter((arr) -> arr.f0 > 3)
+        .setParallelism(1).print();
+        env.execute();
     }
-    
-    
-    
-    
-    
-    
-    private static void startServerSocket(int port) {
-        ServerSocket server = null;
-        Socket socket = null;
-        PrintWriter writer = null;
-        try {
-            server = new ServerSocket(port);
-            socket = server.accept();
-            writer = new PrintWriter(socket.getOutputStream());
-            
-            writer.flush();
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                writer.close();
+
+    public static void startServer() {
+        Random r = new Random();
+        server = new SocketServer(System.currentTimeMillis() + 100 * 1000) {
+            @Override
+            public Message createMsg() {
+                return new Message(r.nextInt(5) + " " + r.nextInt(50), (long) r.nextInt(100));
             }
-            try {
-                if (socket != null) {
-                    socket.close();
-                }
-                if (server != null) {
-                    server.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        };
+        server.start();
     }
 
 }

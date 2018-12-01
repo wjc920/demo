@@ -9,9 +9,7 @@
         <artifactId>demo</artifactId>
         <version>0.1</version>
     </parent>
-    <groupId>wjc920</groupId>
     <artifactId>java</artifactId>
-    <version>0.1</version>
     <name>java exercise</name>
     <dependencies>
     </dependencies>

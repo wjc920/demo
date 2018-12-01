@@ -4,6 +4,6 @@ public class Consts {
     /**
      * socket server port
      */
-    public static final int SOCKET_PORT=5677;
+    public static final int SOCKET_PORT=5679;
 
 }
