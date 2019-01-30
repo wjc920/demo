@@ -12,7 +12,7 @@ public class ReadFile {
     
     public static List<String> readInFileByLine() throws IOException {
         List<String> lineList = new LinkedList<>();
-        File inFile = new File("D:\\in.txt");
+        File inFile = new File("in.txt");
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inFile)));
         String row = "";
         while(true) {
