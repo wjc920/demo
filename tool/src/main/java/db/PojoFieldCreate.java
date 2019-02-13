@@ -12,7 +12,7 @@ public class PojoFieldCreate {
             map.put("STRING", "String");
             map.put("INT64", "long");
             map.put("INT8", "int");
-            map.put("DOUBLE", "Double");
+            map.put("DOUBLE", "double");
             map.put("UNIXTIME_MICROS", "long");
         }
 

@@ -12,8 +12,8 @@ public class ReadFile {
     
     public static List<String> readInFileByLine() throws IOException {
         List<String> lineList = new LinkedList<>();
-        File inFile = new File("in.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inFile)));
+//        File inFile = new File(ReadFile.class.getResource("in.txt").toString());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("D:/in.txt")));
         String row = "";
         while(true) {
             row = reader.readLine();
