@@ -149,7 +149,7 @@ public void put(K key, V value) {
 	}
 
 /**
- * @Description: 获取键key的值
+ * @Description 获取键key的值
  * @param key
  * @return
  * @author wjc920
