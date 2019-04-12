@@ -14,9 +14,9 @@
         <module>flink</module>
         <module>spark</module>
         <module>java</module>
-        <module>scala</module>
         <module>util</module>
         <module>tool</module>
+        <module>scala</module>
     </modules>
 
     <repositories>
