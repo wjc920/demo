@@ -23,8 +23,12 @@ public class SolutionSortList {
         head.next.next.next.next.next.next.next = new ListNode(5);
         head.next.next.next.next.next.next.next.next = new ListNode(11);
         head.next.next.next.next.next.next.next.next.next = new ListNode(15);
-        new SolutionSortList().sortList(head);
-
+        ListNode newHead = new SolutionSortList().insertSort(head);
+        ListNode cur=newHead;
+        while (cur != null) {
+            System.out.println(cur.val);
+            cur = cur.next;
+        }
     }
 
     public ListNode sortList(ListNode head) {
@@ -43,7 +47,6 @@ public class SolutionSortList {
             cur = cur.next;
         }
         return head;
-
     }
 
     private ListNode mergeSort(ListNode head, int len) {
@@ -89,4 +92,46 @@ public class SolutionSortList {
         return head;
 
     }
+
+
+    private ListNode insertSort(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode cur = head.next, insert = null, tmp = null;
+        ListNode newHead = head;
+        newHead.next = null;
+        while (cur != null) {
+            insert = newHead;
+            while (insert != null) {
+                if (insert.val <= cur.val) {
+                    if (insert.next == null) {
+                        tmp = cur.next;
+                        insert.next = cur;
+                        cur.next = null;
+                        cur = tmp;
+                        break;
+                    } else {
+                        if (insert.next.val > cur.val) {
+                            tmp = cur.next;
+                            cur.next = insert.next;
+                            insert.next = cur;
+                            cur = tmp;
+                            break;
+                        }
+                    }
+                } else {
+                    tmp = cur.next;
+                    newHead = cur;
+                    cur.next = insert;
+                    cur = tmp;
+                    break;
+                }
+                insert = insert.next;
+            }
+
+        }
+        return newHead;
+    }
+
 }
