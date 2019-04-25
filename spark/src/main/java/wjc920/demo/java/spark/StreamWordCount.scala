@@ -8,7 +8,8 @@ object StreamWordCount {
   def main(args: Array[String]): Unit = {
     if (args.length < 1) {
       System.err.println("Usage: StreamingWordCount <directory>")
-      return System.exit(1)
+      System.exit(1)
+      return
     }
     val sparkCfg = new SparkConf().setAppName("WordCount").setMaster("local[2]")
     val ssc = new StreamingContext(sparkCfg, Seconds(20))
