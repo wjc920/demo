@@ -1,25 +1,21 @@
 package wjc920.demo.java.sap;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Sap {
-    public static void main(String[] args) {
-        DataOutputStream dataOut = null;
-        BufferedReader in =null;
 
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        DataOutputStream dataOut = null;
+        BufferedReader in = null;
+        PrintWriter out = null;
         try {
 
             //API endpoint for API sandbox
-            String url = "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder";
-            //API endpoint with optional query parameters
-            //String url = "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder?$filter=string&$orderby=array";
-            //To view the complete list of query parameters, see its API definition.
-
+            String url = "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder('5272900')";
+            String params = "{\"IncotermsTransferLocation\": \"suzhou\",\"IncotermsLocation1\":\"suzhou\"}";
 
             //Available API Endpoints
             //https://{host}:{port}/sap/opu/odata/sap/API_SALES_ORDER_SRV
@@ -27,26 +23,37 @@ public class Sap {
             URL urlObj = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) urlObj.openConnection();
             //setting request method
-            connection.setRequestMethod("GET");
+            connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+            connection.setRequestMethod("POST");
 
             //adding headers
-            connection.setRequestProperty("Content-Type","application/json");
-            connection.setRequestProperty("Accept","application/json");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
             //API Key for API Sandbox
-            connection.setRequestProperty("APIKey","1VkwCWkLA00F5nzvA5034Qk6uGAyXyVr");
+            connection.setRequestProperty("APIKey", "YE0lpqM2cEVRJMTdlPIsGmGtO8Axqq4y");
+            connection.setRequestProperty("x-csrf-token", "yY0zoCa-TEMw5ZGCSenrlw==");
+            connection.setRequestProperty("If-Match", "W/\"datetimeoffset'2019-05-10T07%3A44%3A16.7944700Z'\"");
 
 
             //Available Security Schemes for productive API Endpoints
             //Basic Authentication
 
             //Basic Auth : provide username:password in Base64 encoded in Authorization header
-
-            connection.setRequestProperty("Authorization","UDIwMDEyODg3MjMlM0FZY2Q5MjAuLg==");
+            //connection.setRequestProperty("Authorization","Basic <Base64 encoded value>");
 
             connection.setDoInput(true);
 
+            //sending POST request
+            connection.setDoOutput(true);
+
+            connection.connect();
+            out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), "UTF-8"));
+            System.out.println(params);
+            out.print(params);
+            out.flush();
+
             int responseCode = connection.getResponseCode();
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             String inputLine;
             StringBuffer response = new StringBuffer();
             while ((inputLine = in.readLine()) != null) {
@@ -61,10 +68,10 @@ public class Sap {
             e.printStackTrace();
         } finally {
             try {
-                if(dataOut != null) {
+                if (dataOut != null) {
                     dataOut.close();
                 }
-                if(in != null) {
+                if (in != null) {
                     in.close();
                 }
 
