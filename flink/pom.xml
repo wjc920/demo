@@ -4,23 +4,24 @@
     xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>wjc920</groupId>
-        <artifactId>demo</artifactId>
-        <version>0.1</version>
-    </parent>
+
+    <groupId>wjc920.demo</groupId>
     <artifactId>flink</artifactId>
-    <name>flink demo</name>
+    <version>1.0</version>
+    <name>flink</name>
     <properties>
         <flink.version>1.6.2</flink.version>
         <slf4j.version>1.7.7</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>wjc920</groupId>
+            <groupId>wjc920.demo</groupId>
             <artifactId>util</artifactId>
-            <version>${project.version}</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>

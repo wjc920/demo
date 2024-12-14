@@ -1,0 +1,8 @@
+KafkaClient {
+   com.sun.security.auth.module.Krb5LoginModule required
+   useKeyTab=true
+   keyTab="/data/kafka_2.12-2.6.0/config/kerberos/kafka-client.keytab"
+   storeKey=true
+   useTicketCache=false
+   principal="kafka-client@ABC.COM";
+};
